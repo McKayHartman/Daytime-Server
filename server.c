@@ -110,6 +110,14 @@ char* get_daytime() {
         // format the struct into a string
     char stamp[64];
     strftime(stamp, sizeof(stamp), "%y-%m-%d %H:%M:%S", broken_down_time);
+        // compose the final string (using 0s for the special fields)
+    snprintf(buffer, sizeof(buffer), "%ld %s %s 00 0 0 0.0 UTC(NIST) *"), julian_date, stamp);
+        // allocate memory for the string to be returned
+    char* daytime = malloc(strlen(buffer) + 1);
+        // copy the string into the allocated memory
+    strcpy(daytime, buffer);
+        // return the string
+    return daytime;
 }
 
 
@@ -129,6 +137,9 @@ void* handle_client(void* arg)
 
     // SEND DAYTIME TO CLIENT
     write(client_socket, daytime, strlen(daytime));
+
+    // free daytime string
+    free(daytime);
 
     // close client socket
     close(client_socket);
