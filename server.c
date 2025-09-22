@@ -125,8 +125,7 @@ char* get_daytime() {
 /* handle client                                                             */
 /* ************************************************************************* */
 
-void* handle_client(void* arg) 
-{
+void* handle_client(void* arg) {
     int client_socket = *((int*)arg);   // the socket connected to the client
     char input;
     int keep_going = TRUE;
