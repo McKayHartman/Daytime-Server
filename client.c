@@ -27,8 +27,6 @@ int main() {
     // procedure with successful DNS lookup 
     printf("Daytime client running\n");
 
-    printf("status is: %d\n", status);
-
     // loop for candidates in list
     for (traverse = server_info; traverse != NULL; traverse = traverse->ai_next) {
         // attempt to make socket (ipv6 or ipv4)
@@ -92,7 +90,7 @@ void read_time(int client_socket, char *message_buffer) {
         }
         // check for connection closed
         else if (n == 0) {
-            perror("connection closed");
+            printf("connection closed");
             return;
         }
         // check for end of message character
@@ -105,4 +103,3 @@ void read_time(int client_socket, char *message_buffer) {
         message_buffer[i] = '\0';
     }
 }
-
