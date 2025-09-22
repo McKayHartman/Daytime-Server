@@ -3,7 +3,6 @@
 int main() {
     char message_buffer[MAX_MESSAGE_LENGTH + 1];    // for reading time
     int client_socket = -1;                         // client-side conenction socket
-    struct sockaddr_in client_address;              // store address and port
    
     // address information for DNS lookup
     int status;
@@ -55,13 +54,6 @@ int main() {
     // display message to user
     printf("Time: %s\n", message_buffer);
 
-    // create open TCP socket endpoint
-    // client_socket = socket(AF_INET, SOCK_STREAM, 0);
-    // specify corresponding struct members
-    // client_address.sin_family = AF_INET;
-    // client_address.sin_addr.s_addr = inet_addr(
-
-
     // free list of address infos
     freeaddrinfo(server_info);
 
@@ -88,11 +80,7 @@ void read_time(int client_socket, char *message_buffer) {
             perror("read error");
             return;
         }
-        // check for connection closed
-        else if (n == 0) {
-            printf("connection closed");
-            return;
-        }
+
         // check for end of message character
         if (read_char == '*') {
             return;
@@ -103,3 +91,4 @@ void read_time(int client_socket, char *message_buffer) {
         message_buffer[i] = '\0';
     }
 }
+
