@@ -3,7 +3,6 @@
 int main() {
     char message_buffer[MAX_MESSAGE_LENGTH + 1];    // for reading time
     int client_socket = -1;                         // client-side conenction socket
-    struct sockaddr_in client_address;              // store address and port
    
     // address information for DNS lookup
     int status;
@@ -32,7 +31,7 @@ int main() {
         // attempt to make socket (ipv6 or ipv4)
         client_socket = socket(
                                 traverse->ai_family,        // IP version
-                                SOCK_STREAM,                // TCP only, specified at struct creation
+                                traverse->ai_socktype,      // TCP only, specified at struct creation
                                 traverse->ai_protocol);     // socket protocol number
         // check for invalid socket creation
         if (client_socket == -1) {
@@ -53,17 +52,12 @@ int main() {
     read_time(client_socket, message_buffer);
     
     // display message to user
-    printf("Time: %s\n", message_buffer);
+    printf("%s\n", message_buffer);
 
-    // create open TCP socket endpoint
-    // client_socket = socket(AF_INET, SOCK_STREAM, 0);
-    // specify corresponding struct members
-    // client_address.sin_family = AF_INET;
-    // client_address.sin_addr.s_addr = inet_addr(
-
-
-    // free list of address infos
-    freeaddrinfo(server_info);
+    close(client_socket);       // close connection
+    freeaddrinfo(server_info);  // free nodes in list
+    
+    printf("Connection closed\n");
 
     return 0;
 }
@@ -75,28 +69,31 @@ void read_time(int client_socket, char *message_buffer) {
         return;
     }
     
-    bool keep_going = true;     // sentinel for end of message found
-    int i = 0;                  // for message traversing
+    int i = 0;      // for message traversing
     
     // get input from server
-    while (i <= MAX_MESSAGE_LENGTH && keep_going == true) {
+    while (i < MAX_MESSAGE_LENGTH) {
         char read_char;
         // read single character from server
         int n = recv(client_socket, &read_char, 1, 0);
         // check for read error
         if (n == -1) {
             perror("read error");
+            message_buffer[i] = '\0';
             return;
         }
         // check for connection closed
         else if (n == 0) {
-            printf("connection closed");
+            message_buffer[i] = '\0';
             return;
         }
+
         // check for end of message character
         if (read_char == '*') {
-            return;
+            message_buffer[i] = '\0';   // fix string state
+            return;                     // process finished
         }
+
         // append received message to end of buffer
         message_buffer[i] = read_char;
         i++;
