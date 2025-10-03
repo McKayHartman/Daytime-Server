@@ -13,7 +13,7 @@ int main() {
     memset(&hints, 0, sizeof(hints));   // check for empty struct
     hints.ai_family = AF_UNSPEC;        // allow IPv4 and IPv6 configurations
     hints.ai_socktype = SOCK_STREAM;    // TCP connection specified
-    hints.ai_flags = AI_PASSIVE;        // fill source IP
+    hints.ai_flags = 0;                 // client connection format
 
     // attempt dns lookup
     status = getaddrinfo(DAYTIME_HOST, DAYTIME_PORT, &hints, &server_info);
