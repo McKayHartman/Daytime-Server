@@ -17,7 +17,7 @@
 
 #include <signal.h>
 
-#define PROXY_SERVER_ADDRESS "23.254.167.116"   // IP for proxy server
+#define PROXY_SERVER_ADDRESS "23.254.202.24"   // IP for proxy server
 #define PROXY_LISTEN_PORT 23657                 // port server is listening on
 
 #define MAX_MESSAGE_LENGTH 80                   // largest anticipated message size

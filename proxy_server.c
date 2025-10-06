@@ -240,7 +240,6 @@ ssize_t read_time(int read_socket, char *message_buffer)
     // loop for message length - reserve space for null terminator
     while (bytes_read < MAX_MESSAGE_LENGTH - 1)
     {
-        curr_read = 0;
         // attempt to read from NIST server
         curr_read = recv(read_socket, message_buffer + bytes_read,
                                         MAX_MESSAGE_LENGTH - bytes_read, 0);
@@ -248,14 +247,21 @@ ssize_t read_time(int read_socket, char *message_buffer)
         // check for receive error - not from congestion
         if (curr_read < 0)
         {
+	    if (errno == ECONNRESET)
+	    {
+		fprintf(stderr, "Connection reset");
+		break;
+	    }
+
             perror("Receive error");
+	    
             return -1;
         }
         // check for early connection close
         if (curr_read == 0)
         {
             fprintf(stderr, "Connection closed by host\n");
-            return -1;
+            break;
         }
 
         // loop for new read data
