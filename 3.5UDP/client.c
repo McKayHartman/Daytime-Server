@@ -12,7 +12,7 @@ int main()
 
     // clear the server address
     bzero(&servAddr, sizeof(servAddr));
-    servAddr.sin_addr.s_addr = inet_addr("23.254.202.24"); // put ip address
+    servAddr.sin_addr.s_addr = inet_addr("104.168.175.100"); // put ip address
     servAddr.sin_port = htons(PORT);
     servAddr.sin_family = AF_INET;
 
@@ -31,21 +31,8 @@ int main()
     // connect stores the peers ip and port
     sendto(client_socket, message, MAX_MSG_LEN, 0, (struct sockaddr*)NULL, sizeof(servAddr));
 
-
-
-    struct sockaddr_in src_addr;
-    socklen_t addr_len = sizeof(src_addr);
-    
     // wait for server to respond
-    recvfrom(client_socket, message_buffer, sizeof(message_buffer), 0, (struct sockaddr*)&src_addr, &addr_len);
-
-    // verify the sender
-    if(src_addr.sin_addr.s_addr != servAddr.sin_addr.s_addr)
-    {
-        printf("Error: received a packet from unknown source\n");
-        exit(0);
-    }
-
+    recvfrom(client_socket, message_buffer, sizeof(message_buffer), 0, (struct sockaddr*)NULL, NULL);
     puts(message_buffer);
 
     // close file descriptor
