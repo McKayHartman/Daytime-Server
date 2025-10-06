@@ -15,14 +15,12 @@
 #include <netdb.h>
 
 /* Function prototypes */
-void* handle_client(void* arg);
-
 char* get_daytime();
 
 
 /* Preprocessor directives */
 #define SERVER_ADDR "127.0.0.1" // loopback ip address
-#define PORT 23657              // port the server will listen on
+#define PORT 5000 // port the server will listen on
 
 #define FALSE 0
 #define TRUE !FALSE

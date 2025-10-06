@@ -12,7 +12,7 @@ int main()
 
     // clear the server address
     bzero(&servAddr, sizeof(servAddr));
-    servAddr.sin_addr.s_addr = inet_addr("127.0.0.1"); // put ip address
+    servAddr.sin_addr.s_addr = inet_addr("104.168.175.100"); // put ip address
     servAddr.sin_port = htons(PORT);
     servAddr.sin_family = AF_INET;
 

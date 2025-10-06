@@ -44,26 +44,11 @@ int main(int argc, char** argv) {
     exit(EXIT_FAILURE);
   }
 
-  /*// INSERT SOLUTION TO RACE CONDITION HERE
-  // note that this is a naive approach, i.e. there are race conditions
-  // for now this is okay, assuming low load
-  pthread_t thread;
-  if (pthread_create(&thread, NULL, handle_client, (void*)&client_socket) != 0) {
-    perror("Error creating thread");
-    exit(EXIT_FAILURE);
-  }
-
-  // detach the thread so that we don't have to wait (join) with it to reclaim memory.
-  // memory will be reclaimed when the thread finishes.
-  if (pthread_detach(thread) != 0){
-    perror("Error detaching thread");
-    exit(EXIT_FAILURE);
-  }
-  */
   char buffer[128];
-  socklen_t len;
+  socklen_t len = sizeof(client_address);
   int n = recvfrom(server_socket, buffer, sizeof(buffer),
                    0, (struct sockaddr*)&client_address, &len); //receive message from server
+  printf("Server Recvfrom: %d\n", n);
   buffer[n] = '\0';
   puts(buffer);
 

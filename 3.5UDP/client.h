@@ -12,9 +12,8 @@
 #include <unistd.h>         // close
 
 
-#define DAYTIME_HOST "time.nst.gov"
-#define PORT 13
-
+// #define DAYTIME_HOST "time.nst.gov"
+#define PORT 5000 
 #define MAX_MSG_LEN 80
 
 
