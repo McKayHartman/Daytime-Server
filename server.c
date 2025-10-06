@@ -50,16 +50,6 @@ int main(int argc, char** argv) {
         perror("Error listening on socket");
         exit(EXIT_FAILURE);
     }
-    
-
-
-
-
-
-
-
-
-
 
     // ----------------------------------------------------------
     // server loop
